@@ -1,0 +1,45 @@
+esphome:
+  name: tank-level
+  platform: ESP32
+  board: esp32dev
+
+  includes:
+    - A02YYUW-Sensor.h
+
+
+# Enable logging
+logger:
+  level: DEBUG
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "qG4Ub7A/cE4wIemuVILr1X7vpToNLCT606KOHfKnD8g="
+
+ota:
+  password: "d945b29f54878b209152a7d1a446f452"
+
+wifi:
+  ssid: "Bhardwaj"
+  password: "bhardwaj@123"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Bhardwaj3"
+    password: "bhardwaj@123"
+uart:
+  rx_pin: 16
+  tx_pin: 17
+  baud_rate: 9600
+
+sensor:
+  - platform: custom
+    lambda: |-
+      auto a02yyuw_sensor = new A02YYUWSensor();
+      App.register_component(a02yyuw_sensor);
+      return {a02yyuw_sensor};
+    sensors:
+      - name: "Tank Level"
+        unit_of_measurement: cm
+        accuracy_decimals: 1
+        icon: mdi:gauge
